@@ -1,34 +1,21 @@
-import Head from "next/head";
-import Image from "next/image";
 import styles from "../styles/Home.module.css";
-
-import { GetStaticProps } from "next";
-import axios from "axios";
 import { useEffect, useRef } from "react";
-export const getStaticProps: GetStaticProps = async () => {
-  let card = null;
-  try {
-    const { data } = await axios.get(
-      `${process.env.HOSTNAME}/api/card?username=Gers2017`
-    );
-    card = data;
-  } catch (e) {
-    card = `<h1>Whoops better check the logs</h1>`;
-    console.error(e);
-  }
-  return {
-    props: {
-      card,
-    },
-  };
-};
+import useSwr from "swr";
 
-export default function Home({ card }: { card: string }) {
+const fetcher = (url) => fetch(url).then((res) => res.text());
+export default function Home() {
+  const { data, error } = useSwr("/api/card?username=Gers2017", fetcher);
+
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    cardRef.current.innerHTML = card;
-  }, []);
+    if (data) {
+      cardRef.current.innerHTML = data;
+    }
+  }, [data]);
+
+  if (error) return <div>Failed to load the card</div>;
+  if (!data) return <div>Loading...</div>;
 
   return (
     <div className={styles.container}>
