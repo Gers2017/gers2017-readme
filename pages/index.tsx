@@ -1,10 +1,12 @@
 import styles from "../styles/Home.module.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import useSwr from "swr";
 
 const fetcher = (url) => fetch(url).then((res) => res.text());
 export default function Home() {
-  const { data, error } = useSwr("/api/card?username=Gers2017", fetcher);
+  const [theme, setTheme] = useState("glitch");
+  const url = `/api/card?username=Gers2017&cache_seconds=1440&theme=${theme}`;
+  const { data, error } = useSwr(url, fetcher);
 
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -21,6 +23,19 @@ export default function Home() {
     <div className={styles.container}>
       <main className={styles.main}>
         <div ref={cardRef}></div>
+        <select
+          name="themes"
+          id="themes"
+          defaultValue="glitch"
+          onChange={(e) => {
+            setTheme(e.target.value);
+          }}
+        >
+          <option value="glitch">Glitch</option>
+          <option value="vscode">Vscode</option>
+          <option value="dracula">Dracula</option>
+          <option value="spectrum">Spectrum</option>
+        </select>
       </main>
     </div>
   );

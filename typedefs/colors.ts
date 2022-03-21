@@ -1,6 +1,7 @@
 type Colors = {
   primaryColor: string;
-  secondaryColor: string;
+  contentColor: string;
+  circleColor: string;
   bgColor: string;
 };
 

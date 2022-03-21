@@ -1,8 +1,7 @@
 import Circle from "./circle";
-import Colors from "typedefs/colors";
+import { defaultTheme } from "src/colors";
 import CardData from "typedefs/cardData";
-
-import { defaultPalete } from "src/colors";
+import Colors from "typedefs/colors";
 
 export default class Card {
   width = 512;
@@ -10,25 +9,27 @@ export default class Card {
   padding = 10;
   borderRadius = 16;
 
-  colors: Colors = defaultPalete;
+  colors: Colors = defaultTheme;
   data: CardData;
-  circle: Circle = new Circle({});
+  circle: Circle = new Circle({ colors: defaultTheme });
 
-  constructor({ colors, data }: { colors?: Colors; data: CardData }) {
-    if (colors) this.setColors(colors);
+  constructor({ colors, data }: { colors: Colors; data: CardData }) {
+    this.colors = colors;
+    this.circle = new Circle({ colors });
     this.setCardData(data);
   }
 
-  setColors(colors: Colors) {
-    this.colors = colors;
+  setColors(value: Colors) {
+    this.colors = value;
+    this.circle.setColors(value);
   }
 
   setCardData(data: CardData) {
     this.data = data;
   }
 
-  setCircle(circle: Circle) {
-    this.circle = circle;
+  setLanguageExtension(value: string) {
+    this.circle.text = value;
   }
 
   render() {
@@ -53,7 +54,7 @@ export default class Card {
         fill: ${this.colors.primaryColor};
       }
       .content {
-        fill: ${this.colors.secondaryColor};
+        fill: ${this.colors.contentColor};
       }
       @keyframes rectDash {
         from {
