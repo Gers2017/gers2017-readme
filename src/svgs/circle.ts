@@ -19,12 +19,12 @@ export default class Circle {
   }
 
   private calculateBorderPercent(value: number) {
-    const circunference = Math.PI * (this.radius * 2);
+    const circumference = Math.PI * (this.radius * 2);
 
     if (value < 0) value = 0;
     if (value > 100) value = 100;
 
-    return Math.round(((100 - value) / 100) * circunference);
+    return Math.round(((100 - value) / 100) * circumference);
   }
 
   render() {
