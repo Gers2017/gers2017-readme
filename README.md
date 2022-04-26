@@ -1,11 +1,12 @@
 <div align="center">
   <h1>Gers2017 Readme</h1>
   <img src="resources/gers-readme.svg" width="100" height="100" alt="gers-readme-logo" />
-  <h3>Visualize your GitHub stats from everywhere 🐙</h3>
+  <h3>Dynamically generated cards to visualize your Github stats 🐙</h3>
   <h6>Powered by SVG and Next.js</h6>
 </div>
 
 ## Github card
+A preview of the themes can be found [here](https://gers2017-readme.vercel.app/)
 
 Copy and paste the following into your readme and replace
 
@@ -29,5 +30,3 @@ List of available themes:
   ![dracula](resources/dracula.png)
 - ### Spectrum
   ![spectrum](resources/spectrum.png)
-
-Additionally, a preview of the themes can be found [here](https://gers2017-readme.vercel.app/)
