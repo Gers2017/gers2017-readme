@@ -17,7 +17,12 @@ export default function Home() {
   }, [data]);
 
   if (error) return <div>Failed to load the card</div>;
-  if (!data) return <div>Loading...</div>;
+  if (!data)
+    return (
+      <div className={styles.main}>
+        <div className="spin"></div>
+      </div>
+    );
 
   return (
     <div className={styles.container}>
@@ -26,7 +31,7 @@ export default function Home() {
         <select
           name="themes"
           id="themes"
-          defaultValue="glitch"
+          value={theme}
           onChange={(e) => {
             setTheme(e.target.value);
           }}
