@@ -1,10 +1,10 @@
 import Colors from "typedefs/colors";
 
 const glitch: Colors = {
-  primaryColor: "#1fd1a6",
-  contentColor: "#f9377d",
-  circleColor: "#1fd1a6",
-  bgColor: "#172c3c",
+  primaryColor: "#52DABF",
+  contentColor: "#F65384",
+  circleColor: "#52DABF",
+  bgColor: "#151A23",
 };
 
 const vscode: Colors = {

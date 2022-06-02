@@ -1,17 +1,34 @@
 import Colors from "typedefs/colors";
 
+interface ICircle {
+  x?: number;
+  y?: number;
+  text?: string;
+  colors: Colors;
+}
+
 export default class Circle {
+  x: number = 0;
+  y: number = 0;
   radius = 65;
   text: string;
   colors: Colors;
   start: number;
   end: number;
+  fontSize = 48;
+  textPos: { x: number; y: number };
 
-  constructor({ text = "TS", colors }) {
+  constructor({ x = 0, y = 0, text = "NA", colors }: ICircle) {
+    this.x = x;
+    this.y = y;
     this.text = text;
     this.colors = colors;
     this.start = this.calculateBorderPercent(0);
     this.end = this.calculateBorderPercent(60);
+    this.textPos = {
+      x: this.x - Math.round(this.fontSize * 0.5),
+      y: this.y + Math.round(this.fontSize * 0.4),
+    };
   }
 
   setColors(value: Colors) {
@@ -42,7 +59,7 @@ export default class Circle {
         stroke-opacity: 0.33;
       }
       .circle-group text {
-        font-size: 48px;
+        font-size: ${this.fontSize}px;
         font-weight: bold;
         fill: ${this.colors.circleColor};
       }
@@ -56,25 +73,24 @@ export default class Circle {
       }
     </style>
     <g class="circle-group">
-        <circle
+      <circle
         class="bottom"
-        cx="410"
-        cy="160"
+        cx="${this.x}"
+        cy="${this.y}"
         r="${this.radius}"
         stroke-width="4"
         stroke-linecap="round"
       />
       <circle
         class="top"
-        cx="410"
-        cy="160"
+        cx="${this.x}"
+        cy="${this.y}"
         r="${this.radius}"
         stroke-width="4"
         stroke-linecap="round"
         stroke-dasharray="200"
       />
-      <text x="385" y="176">${this.text}</text>
-    </g>
-    `;
+      <text x="${this.textPos.x}" y="${this.textPos.y}">${this.text}</text>
+    </g>`;
   }
 }

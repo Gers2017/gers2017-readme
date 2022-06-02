@@ -36,8 +36,6 @@ export default async function handler(
       colors: cardColors,
     });
 
-    card.setLanguageExtension(languageExtension);
-
     const cacheSeconds = clamp(
       parseInt(cache_seconds as string, 10),
       TIME.THIRTY_MINUTES,

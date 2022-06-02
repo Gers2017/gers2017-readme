@@ -56,17 +56,20 @@ export async function getGithubStatsForCard(username: string) {
   };
 }
 
+const languageExtensions: Record<string, string> = {
+  typescript: "ts",
+  javascript: "js",
+  rust: "rs",
+  haskell: "hs",
+  elixir: "ex",
+  julia: "jl",
+};
+
 export function getLanguageExtension(language: string) {
-  switch (language.toLowerCase()) {
-    case "typescript":
-      return "TS";
-    case "javascript":
-      return "JS";
-    case "rust":
-      return "RS";
-    default:
-      return language.slice(0, 2).toUpperCase();
+  if (language in languageExtensions) {
+    return languageExtensions[language].toUpperCase();
   }
+  return language.slice(0, 2).toUpperCase();
 }
 
 export function getTheme(themeName: string) {
