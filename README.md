@@ -6,6 +6,7 @@
 </div>
 
 ## Github card
+
 A preview of the themes can be found [here](https://gers2017-readme.vercel.app/)
 
 Copy and paste the following into your readme and replace
@@ -14,19 +15,26 @@ Copy and paste the following into your readme and replace
 ![title](https://gers2017-readme.vercel.app/api/card?username=<Username>&cache_seconds=<Cache_seconds>&theme=<Theme>)
 ```
 
-`username` Your GitHub username
-
-`cache_seconds` **(optional)** The number of seconds to cache the response, from 1800s to 86400s (30 minutes to one day). By default, 30 minutes
-
-`theme` The name of the theme to use. If no theme is provided, the theme to use will be `glitch`
+| Option          | Description                                              | Default value |
+| --------------- | -------------------------------------------------------- | ------------- |
+| `username`      | Your GitHub username                                     | ""            |
+| `cache_seconds` | _(optional)_ The number of seconds to cache the response | 30 minutes    |
+| `theme`         | The name of the theme to use.                            | `glitch`      |
 
 List of available themes:
 
-- ### Glitch
-  ![glitch](resources/glitch.png)
-- ### Vscode
-  ![vscode](resources/vscode.png)
-- ### Dracula
-  ![dracula](resources/dracula.png)
-- ### Spectrum
-  ![spectrum](resources/spectrum.png)
+### **Glitch**
+
+![glitch](resources/glitch.png)
+
+### **Vscode**
+
+![vscode](resources/vscode.png)
+
+### **Dracula**
+
+![dracula](resources/dracula.png)
+
+### **Spectrum**
+
+![spectrum](resources/spectrum.png)
