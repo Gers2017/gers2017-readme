@@ -66,6 +66,7 @@ const languageExtensions: Record<string, string> = {
 };
 
 export function getLanguageExtension(language: string) {
+  language = language.toLocaleLowerCase();
   if (language in languageExtensions) {
     return languageExtensions[language].toUpperCase();
   }

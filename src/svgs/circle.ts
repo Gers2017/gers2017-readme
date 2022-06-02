@@ -26,7 +26,7 @@ export default class Circle {
     this.start = this.calculateBorderPercent(0);
     this.end = this.calculateBorderPercent(60);
     this.textPos = {
-      x: this.x - Math.round(this.fontSize * 0.5),
+      x: this.x - Math.round(this.fontSize * 0.6),
       y: this.y + Math.round(this.fontSize * 0.4),
     };
   }

@@ -15,7 +15,7 @@ export default class ErrorCard {
     >
       <style>
         .error text {
-          font: 600 18px "Segoe UI", Ubuntu, "Helvetica Neue", Sans-Serif;
+          font: 600 14px "Segoe UI", Ubuntu, "Helvetica Neue", Sans-Serif;
           fill: #f9377d;
         }
         .error rect {
