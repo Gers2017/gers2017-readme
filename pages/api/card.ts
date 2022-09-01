@@ -4,43 +4,48 @@ import {
   clamp,
   getGithubStatsForCard,
   getLanguageExtension,
-  getMostUsedLanguage,
+  getRepositoriesInfo,
   getTheme,
   ParamError,
 } from "src/utils";
 import ErrorCard from "src/svgs/error";
 import { TIME } from "src/constants";
 
+type Query = { username: string; theme: string; cache_seconds: string };
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  let { username, cache_seconds, theme } = req.query;
-  username = username as string;
-  theme = theme as string;
+  let { username, cache_seconds, theme } = req.query as Query;
+  theme = theme ?? "";
+  let cache_time = parseInt(cache_seconds ?? "0", 10);
+
   res.setHeader("Content-Type", "image/svg+xml");
+
   try {
     if (!username) throw new ParamError("username");
 
     const githubStats = await getGithubStatsForCard(username);
-    const mostUsedLanguage = await getMostUsedLanguage(username);
+    const { totalCommitCount, mostUsedLanguage } = await getRepositoriesInfo(
+      username
+    );
     const languageExtension = getLanguageExtension(mostUsedLanguage);
-    const cardColors = getTheme(theme ?? "");
+
+    const cardColors = getTheme(theme);
     const card = new Card({
       data: {
         title: `${username} stats`,
-        ...githubStats,
+        totalCommits: totalCommitCount,
         mostUsedLanguage,
         languageExtension,
+        ...githubStats,
       },
       colors: cardColors,
     });
 
-    const cacheSeconds = clamp(
-      parseInt(cache_seconds as string, 10),
-      TIME.THIRTY_MINUTES,
-      TIME.ONE_DAY
-    );
+    const cacheSeconds = clamp(cache_time, TIME.THIRTY_MINUTES, TIME.ONE_DAY);
+
     res.setHeader("Cache-Control", `public, max-age=${cacheSeconds}`);
 
     res.send(card.render());

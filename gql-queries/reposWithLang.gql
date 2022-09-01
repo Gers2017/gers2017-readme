@@ -1,0 +1,28 @@
+query userRepositories($login: String!) {
+  user(login: $login) {
+    repositories(
+      first: 100
+      ownerAffiliations: OWNER
+      isFork: false
+      orderBy: { field: UPDATED_AT, direction: DESC }
+    ) {
+      nodes {
+        defaultBranchRef {
+          target {
+            ... on Commit {
+              repository {
+                name
+              }
+              history(first: 0) {
+                totalCount
+              }
+            }
+          }
+        }
+        primaryLanguage {
+          name
+        }
+      }
+    }
+  }
+}

@@ -1,12 +1,10 @@
-interface Stats {
+interface UserStats {
   data: {
     user: {
-      contributionsCollection: {
-        totalCommitContributions: number;
-        restrictedContributionsCount: number;
-        totalIssueContributions: number;
-      };
       repositoriesContributedTo: {
+        totalCount: number;
+      };
+      issues: {
         totalCount: number;
       };
       pullRequests: {
@@ -16,4 +14,4 @@ interface Stats {
   };
 }
 
-export default Stats;
+export default UserStats;
