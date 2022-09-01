@@ -1,6 +1,6 @@
 import axios from "axios";
 import { UserRepos } from "typedefs/repo";
-import Stats from "typedefs/stats";
+import UserStats from "typedefs/stats";
 
 import { GITHUB_TOKEN } from "../constants";
 
@@ -10,23 +10,21 @@ async function requestGraphql(data: { query: string; variables?: object }) {
       Authorization: `bearer ${GITHUB_TOKEN}`,
     },
   });
+
   return res.data;
 }
 
 export async function getStats(login: string) {
   const stats = await requestGraphql({
-    query: `
-    query userInfo($login: String!) {
+    query: `query userInfo($login: String!) {
       user(login: $login) {
-        contributionsCollection {
-          totalCommitContributions
-          restrictedContributionsCount
-          totalIssueContributions
-        }
         repositoriesContributedTo(
           first: 1
           contributionTypes: [COMMIT, ISSUE, PULL_REQUEST, REPOSITORY]
         ) {
+          totalCount
+        }
+        issues(first: 1) {
           totalCount
         }
         pullRequests(first: 1) {
@@ -37,7 +35,7 @@ export async function getStats(login: string) {
     variables: { login },
   });
 
-  return stats as Stats;
+  return stats as UserStats;
 }
 
 export async function getUserRepos(login: string) {
@@ -49,9 +47,21 @@ export async function getUserRepos(login: string) {
           first: 100
           ownerAffiliations: OWNER
           isFork: false
-          orderBy: {field: UPDATED_AT, direction: DESC}
+          orderBy: { field: UPDATED_AT, direction: DESC }
         ) {
           nodes {
+            defaultBranchRef {
+              target {
+                ... on Commit {
+                  repository {
+                    name
+                  }
+                  history(first: 0) {
+                    totalCount
+                  }
+                }
+              }
+            }
             primaryLanguage {
               name
             }

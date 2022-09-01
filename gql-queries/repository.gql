@@ -1,0 +1,15 @@
+query repositoryInfo($login: String!, $name: String!) {
+  user(login: $login) {
+    repository(name: $name) {
+      defaultBranchRef {
+        target {
+          ... on Commit {
+            history {
+              totalCount
+            }
+          }
+        }
+      }
+    }
+  }
+}

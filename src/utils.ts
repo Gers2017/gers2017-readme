@@ -14,32 +14,41 @@ export function clamp(value: number, min: number, max: number) {
   return value;
 }
 
-export async function getMostUsedLanguage(username: string) {
+export async function getRepositoriesInfo(username: string) {
   const userRepos = await getUserRepos(username);
-
   const { nodes } = userRepos.data.user.repositories;
+
+  if (nodes.length === 0) {
+    return { totalCommitCount: 0, mostUsedLanguage: "" };
+  }
+
+  const totalCommitCount = nodes.reduce((count, node) => {
+    return node.defaultBranchRef.target.history.totalCount + count;
+  }, 0);
 
   const langsMap = nodes
     .filter((node) => Boolean(node.primaryLanguage))
     .reduce((map, node) => {
-      const { name } = node.primaryLanguage;
+      const name = node.primaryLanguage.name;
 
-      if (map[name]) {
-        map[name] += 1;
+      if (map.has(name)) {
+        let count = map.get(name);
+        map.set(name, count + 1);
       } else {
-        map[name] = 1;
+        map.set(name, 1);
       }
 
       return map;
-    }, {});
+    }, new Map<string, number>());
 
-  const tuples: [string, number][] = Object.keys(langsMap).map((key) => [
-    key,
-    langsMap[key],
-  ]);
+  const tuples = [...langsMap.entries()];
   const sorted = tuples.sort((a, b) => b[1] - a[1]);
-  const [language] = sorted[0];
-  return language;
+  const [mostUsedLanguage] = sorted[0];
+
+  return {
+    totalCommitCount,
+    mostUsedLanguage,
+  };
 }
 
 export async function getGithubStatsForCard(username: string) {
@@ -47,10 +56,7 @@ export async function getGithubStatsForCard(username: string) {
   const user = stats.data.user;
 
   return {
-    totalCommits:
-      user.contributionsCollection.totalCommitContributions +
-      user.contributionsCollection.restrictedContributionsCount,
-    totalIssues: user.contributionsCollection.totalIssueContributions,
+    totalIssues: user.issues.totalCount,
     totalPRs: user.pullRequests.totalCount,
     contributedTo: user.repositoriesContributedTo.totalCount,
   };

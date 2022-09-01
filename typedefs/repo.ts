@@ -1,6 +1,13 @@
 export type Node = {
+  defaultBranchRef: {
+    target: {
+      history: {
+        totalCount: number;
+      };
+    };
+  };
   primaryLanguage: {
-    name: string;
+    name: string | null;
   };
 };
 
