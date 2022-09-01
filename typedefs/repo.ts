@@ -5,7 +5,7 @@ export type Node = {
         totalCount: number;
       };
     };
-  };
+  } | null;
   primaryLanguage: {
     name: string | null;
   };

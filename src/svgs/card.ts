@@ -33,6 +33,14 @@ export default class Card {
     this.setCardData(data);
     this.circle = new Circle({ x: 400, y: 90, colors });
     this.circle.text = data.languageExtension;
+
+    let titleSize = data.title.length;
+
+    if (titleSize >= 20) {
+      this.fontSizeTitle = 24;
+    } else if (titleSize >= 15) {
+      this.fontSizeTitle = 28;
+    }
   }
 
   setColors(value: Colors) {

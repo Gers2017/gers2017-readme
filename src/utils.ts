@@ -23,7 +23,8 @@ export async function getRepositoriesInfo(username: string) {
   }
 
   const totalCommitCount = nodes.reduce((count, node) => {
-    return node.defaultBranchRef.target.history.totalCount + count;
+    const targetCount = node.defaultBranchRef?.target.history.totalCount ?? 0;
+    return targetCount + count;
   }, 0);
 
   const langsMap = nodes
@@ -69,6 +70,7 @@ const languageExtensions: Record<string, string> = {
   haskell: "hs",
   elixir: "ex",
   julia: "jl",
+  "c++": "cp",
 };
 
 export function getLanguageExtension(language: string) {
